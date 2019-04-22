@@ -26,6 +26,7 @@ dependencies:
   http:
   shared_preferences:
   fluttertoast:
+  auto_size_text:
 dev_dependencies:
   flutter_test:
     sdk: flutter

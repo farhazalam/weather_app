@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   String iconUrl;
   int isDay;
   String newLocation;
+  String zero;
 
   Icon _searchIcon = Icon(Icons.search);
   Widget _appBarTitle = Text('Weather App');
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
     iconUrl = '';
     isDay = 0;
     newLocation = '';
-
+    zero = '0';
     fetchData();
   }
 
@@ -115,7 +116,11 @@ class _HomePageState extends State<HomePage> {
       var win = result['current']['wind_kph'];
       wind = win.toString();
       var tem = result['current']['temp_c'];
-      temp = tem.toString();
+      // if(tem<10)
+      //   temp =zero+ tem.toString();
+      // else  
+        temp=tem.toString();
+      
       country = result['location']['country'];
       datetime = result['location']['localtime'];
       date = datetime.substring(0, 10);
@@ -149,9 +154,10 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
       child: Center(
-        child: Text(
+        child: AutoSizeText(
           '$newLocation, $country',
           style: TextStyle(fontSize: 26, fontWeight: FontWeight.w500),
+          maxLines: 1,
         ),
       ),
     );
@@ -172,9 +178,10 @@ class _HomePageState extends State<HomePage> {
   Widget _buildTemp() {
     return Container(
       padding: EdgeInsets.fromLTRB(50, 49, 0, 0),
-      child: Text(
+      child: AutoSizeText(
         '$newTemp',
         style: TextStyle(fontSize: 290, fontWeight: FontWeight.w500),
+        maxLines: 1,
       ),
     );
   }
@@ -253,6 +260,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: _backColour,
         appBar: _buildBar(context),
         body: ListView(
+          physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             Stack(
               children: <Widget>[
